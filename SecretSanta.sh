@@ -67,7 +67,7 @@ mkdir assignments
 for i in {1..$N}; do
     echo "$names[i] is the Secret Santa for $shuffled_names[i]." >> .HIDE_assignments.txt
     echo "You are the Secret Santa for $shuffled_names[i]." > assignments/${hashes[i]}.txt
-    echo "$names[i] should take a look at https://raw.githubusercontent.com/evastgh/SecretSanta/master/assignments/${hashes[i]}.txt" > HIDE_encrypted_assignments.txt
+    echo "$names[i] should take a look at https://raw.githubusercontent.com/evastgh/SecretSanta/master/assignments/${hashes[i]}.txt" >> HIDE_encrypted_assignments.txt
 done
 git add assignments/*.txt
 git commit -am "Secret Santa assignments!"
