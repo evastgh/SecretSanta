@@ -41,7 +41,6 @@ for i in {1..$N}; do
     echo $hash >> TEMP_hashes.txt
 done
 
-
 keep_shuffling=1
 while [[ $keep_shuffling -eq 1 ]]; do
     shuf $names_file > TEMP_shuffled_names.txt
@@ -61,9 +60,14 @@ while [[ $keep_shuffling -eq 1 ]]; do
     done
 done
 
-touch .HIDE_assignments.txt; echo -n '' > HIDE_assignments.txt
+touch .HIDE_assignments.txt; echo -n '' > .HIDE_assignments.txt
+touch HIDE_encrypted_assignments.txt; echo -n '' > HIDE_encrypted_assignments.txt
+git rm assignments/*.txt
+mkdir assignments
 for i in {1..$N}; do
     echo "$names[i] is the Secret Santa for $shuffled_names[i]." >> .HIDE_assignments.txt
+    echo "You are the Secret Santa for $shuffled_names[i]." > assignments/${hashes[i]}.txt
 done
+git add assignments/*.txt
 
 # rm TEMP_*
