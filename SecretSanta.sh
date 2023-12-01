@@ -73,3 +73,4 @@ git add assignments/*.txt
 git commit -am "Secret Santa assignments!"
 git push
 rm TEMP_*
+cat HIDE_encrypted_assignments.txt
