@@ -1,8 +1,9 @@
 #!/bin/zsh
 
-# echo "What year is this year?"
-# read year
+echo "What year is this year?"
+read year
 
+# Add participant names by hand
 # names=()
 # echo "Please input the names of the participants, separated by enter. When done with entering names, simply enter an empty line."
 # while read name; do
@@ -16,19 +17,23 @@
 # echo "The participants of ${year}'s Secret Santa are: "
 # echo $names
 
-if [ $# -eq 0 ];
-then
-    echo "$0: Please provide a file input for participant names. "
-    exit 1
-fi
-names_file=$1
+# Add participant names from a file
+# names=()
+# if [ $# -eq 0 ];
+# then
+#     echo "$0: Please provide a file input for participant names. "
+#     exit 1
+# fi
+# names_file=$1
+# while read line; do
+#     names+=(${line})
+# done <$names_file
+# N=${#names[@]}
+# echo "$N participants read: $names."
 
-names=()
-while read line; do
-    names+=(${line})
-done <$names_file
+names=("Bill" "Ellyn" "Katie" "Robin" "Ben" "Stef")
+SOs=("Ellyn" "Bill" "Robin" "Katie" "Stef" "Ben")
 N=${#names[@]}
-echo "$N participants read: $names."
 
 echo "Enter a pass phrase to encode the names:"
 read pass_phrase
@@ -43,7 +48,7 @@ done
 
 keep_shuffling=1
 while [[ $keep_shuffling -eq 1 ]]; do
-    shuf $names_file > TEMP_shuffled_names.txt
+    shuf $names > TEMP_shuffled_names.txt
     shuffled_names=()
     while read line; do
         shuffled_names+=(${line})
@@ -51,9 +56,7 @@ while [[ $keep_shuffling -eq 1 ]]; do
     # echo "Shuffled names: $shuffled_names."
     keep_shuffling=0
     for i in {1..$N}; do
-        if [[ $names[i] == $shuffled_names[i] ]]
-        then
-            # echo "Found a fixed point. Reshuffling..."
+        if [[ $names[i] == $shuffled_names[i] ]] || [[ $shuffled_names[i] == $SOs[i] ]]; then
             keep_shuffling=1
             break
         fi
@@ -70,7 +73,7 @@ for i in {1..$N}; do
     echo "$names[i] should take a look at https://raw.githubusercontent.com/evastgh/SecretSanta/master/assignments/${hashes[i]}.txt" >> HIDE_encrypted_assignments.txt
 done
 git add assignments/*.txt
-git commit -am "Secret Santa assignments!"
+git commit -am "Secret Santa assignments! Year: ${year}"
 git push
 rm TEMP_*
 cat HIDE_encrypted_assignments.txt
