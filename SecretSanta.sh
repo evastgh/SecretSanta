@@ -35,6 +35,12 @@ names=("Bill" "Ellyn" "Katie" "Robin" "Ben" "Stef")
 SOs=("Ellyn" "Bill" "Robin" "Katie" "Stef" "Ben")
 N=${#names[@]}
 
+touch TEMP_names.txt; echo -n '' > TEMP_names.txt # prepare TEMP_names.txt to be an empty file
+for i in {1..$N}; do
+    echo ${names[i]} >> TEMP_names.txt
+done
+names_file="TEMP_names.txt"
+
 echo "Enter a pass phrase to encode the names:"
 read pass_phrase
 echo "Using pass phrase '${pass_phrase}' to encode the names..."
@@ -48,7 +54,7 @@ done
 
 keep_shuffling=1
 while [[ $keep_shuffling -eq 1 ]]; do
-    shuf $names > TEMP_shuffled_names.txt
+    shuf $names_file > TEMP_shuffled_names.txt
     shuffled_names=()
     while read line; do
         shuffled_names+=(${line})
