@@ -59,7 +59,6 @@ while [[ $keep_shuffling -eq 1 ]]; do
     while read line; do
         shuffled_names+=(${line})
     done <TEMP_shuffled_names.txt
-    echo "Shuffled names: $shuffled_names."
     keep_shuffling=0
     for i in {1..$N}; do
         if [[ $names[i] == $shuffled_names[i] ]] || [[ $shuffled_names[i] == $SOs[i] ]]; then
